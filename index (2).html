@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For my Love</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #ffebee;
+            margin: 0;
+            perspective: 1200px;
+        }
+
+        .book {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            transform-style: preserve-3d;
+        }
+
+        .cover, .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-origin: left;
+            transition: transform 1s ease-in-out;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .cover {
+            background: #ff6b6b;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .page {
+            background: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .image-frame {
+            width: 200px;
+            height: 200px;
+            background: #ffebee;
+            border: 3px solid #ff6b6b;
+            border-radius: 10px;
+            margin: 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .image-frame img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .content {
+            font-family: Arial, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Page 6 - Reset Page */
+        .reset-page {
+            background: #ff6b6b; /* Same as cover */
+            color: white;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="book">
+        <div class="cover" id="cover">To My Sweetheart</div>
+        <div class="page" id="page1" style="z-index: 9;">
+            <div class="content">
+                <h2>November</h2>
+                <div class="image-frame"><img src="Nov.jpeg" alt="November"></div>
+                <p>Our journey begins with autumn’s embrace.</p>
+            </div>
+        </div>
+        <div class="page" id="page2" style="z-index: 8;">
+            <div class="content">
+                <h2>December</h2>
+                <div class="image-frame"><img src="Dec.jpeg" alt="December"></div>
+                <p>Snowflakes fall, but my heart stays warm with you.</p>
+            </div>
+        </div>
+        <div class="page" id="page3" style="z-index: 7;">
+            <div class="content">
+                <h2>January</h2>
+                <div class="image-frame"><img src="Jan.jpeg" alt="January"></div>
+                <p>New beginnings, yet my love remains the same.</p>
+            </div>
+        </div>
+        <div class="page" id="page4" style="z-index: 6;">
+            <div class="content">
+                <h2>February</h2>
+                <div class="image-frame"><img src="Feb.jpeg" alt="February"></div>
+                <p>A month of love, but you make every day special.</p>
+            </div>
+        </div>
+        <div class="page" id="page5" style="z-index: 5;">
+            <div class="content">
+                <h2>March</h2>
+                <div class="image-frame"><img src="March.jpeg" alt="March"></div>
+                <p>Spring whispers, reminding me of our love’s bloom.</p>
+            </div>
+        </div>
+        <div class="page reset-page" id="page6" style="z-index: 4;">
+            And this story will keep adding page every month
+        </div>
+    </div>
+
+    <script>
+        const cover = document.getElementById('cover');
+        const pages = [
+            document.getElementById('page1'),
+            document.getElementById('page2'),
+            document.getElementById('page3'),
+            document.getElementById('page4'),
+            document.getElementById('page5'),
+            document.getElementById('page6')
+        ];
+
+        let currentPage = -1; 
+
+        function nextPage() {
+            if (currentPage === -1) {
+                // Open the cover first
+                cover.style.transform = 'rotateY(-180deg)';
+                currentPage++;
+            } else if (currentPage < pages.length) {
+                // Flip the next page
+                pages[currentPage].style.transform = 'rotateY(-180deg)';
+                currentPage++;
+            }
+
+            // If Page 6 is clicked, reset everything
+            if (currentPage === pages.length) {
+                resetBook();
+            }
+        }
+
+        function resetBook() {
+            currentPage = -1;
+            cover.style.transform = 'rotateY(0deg)';
+
+            pages.forEach((page) => {
+                page.style.transform = 'rotateY(0deg)';
+            });
+        }
+
+        // Click events
+        cover.addEventListener('click', nextPage);
+        pages.forEach(page => page.addEventListener('click', nextPage));
+
+        // Page 6 click resets book
+        document.getElementById('page6').addEventListener('click', resetBook);
+    </script>
+</body>
+</html>
